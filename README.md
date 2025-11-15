@@ -1,123 +1,106 @@
-📌 GALERI SEKOLAH – SMKN 4 BOGOR
+🌟 GALERI SEKOLAH – SMKN 4 BOGOR
 
-Platform web galeri sekolah yang dirancang untuk mendokumentasikan, mengarsipkan, dan mempublikasikan kegiatan sekolah. Website ini memungkinkan admin mengelola konten (foto dan berita), sementara pengunjung dapat melihat galeri dan berita tanpa login.
+Galeri Sekolah SMKN 4 Bogor adalah platform web untuk mendokumentasikan kegiatan sekolah melalui foto dan berita.
+Admin mengelola konten, dan pengunjung dapat mengakses galeri & berita tanpa perlu login.
 
 🚀 Fitur Utama
 🔐 Fitur Admin (Login Required)
-
-Fitur yang diberikan hanya untuk admin dengan keamanan autentikasi:
-
-Dashboard Admin (ringkasan statistik dan jumlah konten)
-
-Manajemen Galeri Foto (CRUD)
-
-Manajemen Berita (CRUD)
-
-Manajemen Kategori
-
-Upload Gambar dengan validasi
-
-Pengaturan Profil Admin
-
+Fitur	Deskripsi
+Dashboard Statistik	Ringkasan jumlah galeri, berita, dan aktivitas
+CRUD Galeri Foto	Tambah, edit, hapus foto
+CRUD Berita	Kelola berita sekolah
+CRUD Kategori	Mengelola kategori galeri & berita
+Upload Foto	Validasi ukuran & format
+Pengaturan Profil	Ubah password & profil admin
 🌍 Fitur Pengunjung (Tanpa Login)
-
-Pengunjung tidak perlu akun untuk mengakses konten:
-
-Beranda dengan foto unggulan & berita terbaru
-
-Galeri Foto lengkap dengan pencarian & filter
-
-Detail Foto (informasi + tampilan besar)
-
-Daftar Berita dengan pencarian & filter
-
-Detail Berita
-
-Halaman Tentang Sekolah
-
-Halaman Kontak Sekolah
-
+Fitur	Deskripsi
+Beranda	Foto unggulan + berita terbaru
+Galeri Foto	Pencarian + filter kategori
+Detail Foto	Tampilan besar + info detail
+Daftar Berita	Pencarian berita
+Detail Berita	Konten lengkap
+Tentang Sekolah	Profil sekolah
+Kontak Sekolah	Info kontak + lokasi
 ⭐ Fitur Unggulan Tambahan
 
-Progressive Web App (PWA)
+✔ Progressive Web App (PWA)
 
-Desain Responsif (Mobile Friendly)
+✔ Mobile Friendly (Responsive)
 
-SEO Friendly
+✔ SEO Friendly (Slug & Meta Tag)
 
-Social Sharing (Bagikan Berita/Foto)
+✔ Social Sharing (WhatsApp, Facebook, Instagram, dll)
 
-View Counter untuk galeri dan berita
+✔ View Counter untuk galeri & berita
 
-Featured Content (konten unggulan di beranda)
+✔ Featured Content di halaman beranda
 
-🛠 Teknologi yang Digunakan
+✔ REST API Ready (struktur endpoint rapi)
 
-Backend: Laravel 10/11
-
-Frontend: Bootstrap 5 + Font Awesome
-
-Database: MySQL / SQLite
-
-Storage: Local File Storage
-
-API Ready: Menggunakan struktur REST API
-
-📦 Instalasi (Localhost)
+🧩 Teknologi yang Digunakan
+Teknologi	Versi
+Laravel	12
+Bootstrap	5
+Font Awesome	6
+Database	MySQL / SQLite
+Storage	Local File Storage
+API	RESTful API
+🛠 Instalasi (Localhost)
 git clone https://github.com/rikimaulanaa04-svg/ujikom-riki.git
 cd ujikom-riki
 
 composer install
+
 cp .env.example .env
 php artisan key:generate
+
 php artisan migrate
+php artisan storage:link
+
 php artisan serve
 
 🌐 Akses Aplikasi
+Tipe	URL
+Website	http://localhost:8000
 
-Website: http://localhost:8000
-
-Admin Login: http://localhost:8000/admin/login
-
-👤 Default Admin (Jika Menggunakan Seeder)
-
+Admin Login	http://localhost:8000/admin/login
+👤 Default Admin (Seeder)
 Email: admin@sekolah.com
 Password: password
 
 🗂 Struktur Database (Singkat)
 Users
-
 id, name, email, password, role, avatar, timestamps
 
 Galleries
-
 id, title, description, image_path, category, views, is_featured
 
 News
-
 id, title, slug, content, image_path, category, views, is_published
 
 📌 Routes Utama
-Public Routes
-/                 - Beranda
-/galeri           - Galeri foto
-/galeri/{id}      - Detail foto
-/berita           - Berita sekolah
-/berita/{id}      - Detail berita
-/tentang          - Tentang sekolah
-/kontak           - Kontak
+🔓 Public Routes
+/               – Beranda
+/galeri         – Galeri Foto
+/galeri/{id}    – Detail Foto
+/berita         – Berita Sekolah
+/berita/{id}    – Detail Berita
+/tentang        – Tentang Sekolah
+/kontak         – Kontak Sekolah
 
-Admin Routes
+🔐 Admin Routes
 /admin/login
 /admin/dashboard
 /admin/gallery/*
 /admin/news/*
 /admin/settings
 
-🏆 Fitur Khusus
+🏆 Keunggulan Aplikasi
 
-Aplikasi ringan dan cepat
+Cepat & ringan
 
-Siap dikembangkan menjadi aplikasi mobile dengan PWA
+Clean Code — mudah dipahami untuk Ujikom
 
-Struktur bersih dan mudah dipahami untuk Ujikom
+Siap dijadikan portofolio profesional
+
+Bisa dikembangkan jadi aplikasi mobile (PWA)
