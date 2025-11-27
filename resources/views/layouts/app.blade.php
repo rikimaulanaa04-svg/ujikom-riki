@@ -23,6 +23,68 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/m5Z5SaKGOGn+urRk="
+        crossorigin=""/>
+    <style>
+        .footer {
+            background: #0a1f4f;
+            color: white;
+            padding: 40px 0 0;
+            position: relative;
+            z-index: 10;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+        .footer-section {
+            margin-bottom: 30px;
+        }
+        .footer-section h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .footer-section p, .footer-section a {
+            color: #e0e0e0;
+            line-height: 1.6;
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+        .footer-section a:hover {
+            color: #d4af37;
+        }
+        .map-container {
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        #footer-map {
+            height: 100%;
+            width: 100%;
+            border: none;
+        }
+        .footer-bottom {
+            background: #081a3d;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 
     <style>
         :root{ --gold:#d4af37; --deep-blue:#0a1f4f; --royal-blue:#0b3c8f; --light-blue:#eaf2ff; }
@@ -288,8 +350,8 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('admin.login') }}" class="btn-login-user">
-                        <i class="fas fa-user-shield"></i> Login Admin
+                    <a href="{{ route('user.login') }}" class="btn-login-user">
+                        <i class="fas fa-sign-in-alt"></i> Login
                     </a>
                 @endif
                 <div class="nav-toggle" id="nav-toggle"><i class="fas fa-bars"></i></div>
@@ -302,6 +364,32 @@
         <main>
             @yield('content')
         </main>
+        
+        @if(!request()->routeIs('home') && !request()->routeIs('tentang') && !request()->routeIs('user.register'))
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tentang Kami</h3>
+                    <p>SMKN 4 Bogor adalah sekolah kejuruan yang berkomitmen untuk memberikan pendidikan berkualitas dan menghasilkan lulusan yang siap kerja.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Raya Tajur No.84, Bogor</p>
+                    <p><i class="fas fa-phone"></i> (0251) 1234567</p>
+                    <p><i class="fas fa-envelope"></i> info@smkn4bogor.sch.id</p>
+                </div>
+                <div class="footer-section">
+                    <div class="map-container">
+                        <div id="footer-map"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; {{ date('Y') }} SMKN 4 Bogor. All Rights Reserved.
+            </div>
+        </footer>
+        @endif
     @endif
 
     <script>
@@ -533,7 +621,35 @@
         // keep overlay hidden so content can scroll while sidebar is open
     })();
     </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    
     <script>
+    // Initialize map in footer
+    document.addEventListener('DOMContentLoaded', function() {
+        const map = L.map('footer-map').setView([-6.6037, 106.7974], 16);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        const schoolIcon = L.icon({
+            iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        });
+        
+        const marker = L.marker([-6.6037, 106.7974], {icon: schoolIcon}).addTo(map);
+        marker.bindPopup(
+            `<h3 style="margin:5px 0;font-size:1.1em;">SMKN 4 Bogor</h3>
+            <p style="margin:5px 0;">Jl. Raya Tajur No.84, Bogor</p>`
+        ).openPopup();
+    });
+    
+    // Service Worker
     (function(){
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function(){ navigator.serviceWorker.register('/service-worker.js'); });

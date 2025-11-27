@@ -115,6 +115,12 @@
 <!-- CSS -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+/* Hide footer map on Tentang Kami page */
+.footer .map-container {
+    display: none !important;
+}
+
 * { font-family: 'Poppins', sans-serif; }
 
 /* Hero */

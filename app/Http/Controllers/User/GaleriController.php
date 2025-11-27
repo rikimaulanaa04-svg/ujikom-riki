@@ -17,26 +17,48 @@ class GaleriController extends Controller
      */
     public function index()
     {
-        $cats = Category::orderBy('name')->get();
-        $categories = $cats->mapWithKeys(function($c){
-            $slug = Str::slug($c->name);
-            return [$slug => $c->name];
-        })->toArray();
+        // Daftar kategori yang akan ditampilkan
+        $orderedCategories = [
+            'kepala-sekolah' => 'Kepala Sekolah',
+            'guru' => 'Guru',
+            'jurusan' => 'Jurusan',
+            'kegiatan' => 'Kegiatan',
+            'eskul' => 'Ekstrakurikuler' // Menggunakan 'Ekstrakurikuler' sebagai label
+        ];
 
-        $items = Gallery::with('category')->orderByDesc('id')->get()->map(function($g){
-            $slug = $g->category ? Str::slug($g->category->name) : 'lainnya';
-            $likes = Like::where('gallery_id', $g->id)->count();
-            $comments = Comment::where('gallery_id', $g->id)->count();
-            return [
-                'id' => $g->id,
-                'kategori' => $slug,
-                'img' => 'storage/'.$g->image,
-                'judul' => $g->title,
-                'desk' => $g->description ?? '',
-                'likes_count' => $likes,
-                'comments_count' => $comments,
-            ];
-        })->toArray();
+        // Ambil kategori dari database
+        $dbCategories = Category::orderBy('name')->get();
+        
+        // Gunakan hanya kategori yang sudah ditentukan
+        $categories = $orderedCategories;
+
+        // Ambil data galeri
+        $items = Gallery::with('category')
+            ->orderByDesc('id')
+            ->get()
+            ->map(function($g) use ($orderedCategories) {
+                $categoryName = $g->category ? $g->category->name : 'Lainnya';
+                $slug = Str::slug($categoryName);
+                
+                // Normalisasi slug untuk ekstrakurikuler
+                if (in_array(strtolower($categoryName), ['eskul', 'ekstrakurikuler'])) {
+                    $slug = 'eskul';
+                }
+                
+                $likes = Like::where('gallery_id', $g->id)->count();
+                $comments = Comment::where('gallery_id', $g->id)->count();
+                
+                return [
+                    'id' => $g->id,
+                    'kategori' => $slug,
+                    'img' => 'storage/'.$g->image,
+                    'judul' => $g->title,
+                    'desk' => $g->description ?? '',
+                    'likes_count' => $likes,
+                    'comments_count' => $comments,
+                ];
+            })
+            ->toArray();
 
         return view('user.galeri', compact('categories', 'items'));
     }
